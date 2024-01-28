@@ -34,7 +34,7 @@ while true; do
 done
 
 apt update -y
-apt install python3 python3-pip screen tmux wget curl nginx certbot python3-certbot-nginx -y
+apt install python3 python3-pip screen tmux wget curl nginx certbot python3-certbot-nginx unzip -y
 pip3 install Flask Flask-SocketIO webssh
 
 echo "[Unit]" > /etc/systemd/system/webssh.service
@@ -51,7 +51,7 @@ sudo systemctl start webssh
 sudo systemctl enable webssh
 
 if [ -d /usr/local/Reverse ]; then cd /usr/local/Reverse; else mkdir /usr/local/Reverse && cd /usr/local/Reverse; fi
-echo alias reverse="bash /usr/local/Reverse/reverse.sh" >> ~/.bashrc
+echo "alias reverse=\"bash /usr/local/Reverse/reverse.sh\"" >> ~/.bashrc
 alias reverse="bash /usr/local/Reverse/reverse.sh"
 if [ -f /usr/local/Reverse/server.py ]; then rm /usr/local/Reverse/server.py; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/server.py
