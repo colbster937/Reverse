@@ -51,6 +51,7 @@ sudo systemctl start webssh
 sudo systemctl enable webssh
 
 if [ -d /usr/local/Reverse ]; then cd /usr/local/Reverse; else mkdir /usr/local/Reverse && cd /usr/local/Reverse; fi
+if ! [ -d /usr/local/Reverse/html ]; then mkdir /usr/local/Reverse/html; fi
 echo "alias reverse=\"bash /usr/local/Reverse/reverse.sh\"" >> ~/.bashrc
 alias reverse="bash /usr/local/Reverse/reverse.sh"
 if [ -f /usr/local/Reverse/server.py ]; then rm /usr/local/Reverse/server.py; fi
