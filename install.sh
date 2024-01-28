@@ -50,6 +50,17 @@ echo "WantedBy=multi-user.target" >> /etc/systemd/system/webssh.service
 sudo systemctl start webssh
 sudo systemctl enable webssh
 
+echo server { > /etc/nginx/sites-available/download_rclient
+echo     listen 8444; >> /etc/nginx/sites-available/download_rclient
+echo     server_name _; >> /etc/nginx/sites-available/download_rclient
+echo     root /usr/local/Reverse/html/; >> /etc/nginx/sites-available/download_rclient
+echo     index index.html index.htm; >> /etc/nginx/sites-available/download_rclient
+echo     location / { >> /etc/nginx/sites-available/download_rclient
+echo         try_files $uri $uri/ =404; >> /etc/nginx/sites-available/download_rclient
+echo     } >> /etc/nginx/sites-available/download_rclient
+echo } >> /etc/nginx/sites-available/download_rclient
+if ! [ -f /etc/nginx/sites-enabled/download_rclient ]; then ln -s /etc/nginx/sites-available/download_rclient /etc/nginx/sites-enabled/download_rclient; fi
+
 if [ -d /usr/local/Reverse ]; then cd /usr/local/Reverse; else mkdir /usr/local/Reverse && cd /usr/local/Reverse; fi
 if ! [ -d /usr/local/Reverse/html ]; then mkdir /usr/local/Reverse/html; fi
 echo "alias reverse=\"bash /usr/local/Reverse/reverse.sh\"" >> ~/.bashrc
@@ -67,7 +78,7 @@ else
 fi
 
 cd /etc/nginx/sites-available/
-if [ -f /etc/nginx/sites-enabled/webssh ]; then rm /etc/nginx/sites-available/webssh; fi
+if [ -f /etc/nginx/sites-available/webssh ]; then rm /etc/nginx/sites-available/webssh; fi
 wget -O webssh https://raw.githubusercontent.com/colbychittenden/Reverse/main/webssh-nginx.conf
 if ! [ -f /etc/nginx/sites-enabled/webssh ]; then ln -s /etc/nginx/sites-available/webssh /etc/nginx/sites-enabled/webssh; fi
 if [ -f /etc/nginx/sites-enabled/default ]; then rm /etc/nginx/sites-enabled/default; fi
