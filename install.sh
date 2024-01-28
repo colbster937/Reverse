@@ -50,15 +50,17 @@ echo "WantedBy=multi-user.target" >> /etc/systemd/system/webssh.service
 sudo systemctl start webssh
 sudo systemctl enable webssh
 
-echo "server {" > /etc/nginx/sites-available/download_rclient
-echo "  listen 8444;" >> /etc/nginx/sites-available/download_rclient
-echo "  server_name _;" >> /etc/nginx/sites-available/download_rclient
-echo "  root /usr/local/Reverse/html/;" >> /etc/nginx/sites-available/download_rclient
-echo "  index index.html index.htm;" >> /etc/nginx/sites-available/download_rclient
-echo "  location / {" >> /etc/nginx/sites-available/download_rclient
-echo "    try_files \$uri \$uri/ =404;" >> /etc/nginx/sites-available/download_rclient
-echo "  }" >> /etc/nginx/sites-available/download_rclient
-echo "}" >> /etc/nginx/sites-available/download_rclient
+cat << 'EOF' > /etc/nginx/sites-available/download_rclient
+server {
+    listen 8444;
+    server_name _;
+    root /usr/local/Reverse/html/;
+    index index.html index.htm;
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
 if ! [ -f /etc/nginx/sites-enabled/download_rclient ]; then ln -s /etc/nginx/sites-available/download_rclient /etc/nginx/sites-enabled/download_rclient; fi
 
 if [ -d /usr/local/Reverse ]; then cd /usr/local/Reverse; else mkdir /usr/local/Reverse && cd /usr/local/Reverse; fi
