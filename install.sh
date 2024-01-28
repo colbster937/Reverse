@@ -72,6 +72,7 @@ if [ -f /usr/local/Reverse/server.py ]; then rm /usr/local/Reverse/server.py; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/server.py
 if [ -f /usr/local/Reverse/client.py ]; then rm /usr/local/Reverse/client.py; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/client.py
+mv ./client.py ./html/client.py
 if [ -f /usr/local/Reverse/reverse.sh ]; then rm /usr/local/Reverse/reverse.sh; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/reverse.sh
 if [ "$isoncloud" == 'yes' ]; then
