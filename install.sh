@@ -79,10 +79,10 @@ if [ "$isoncloud" == 'yes' ]; then
   echo Enter Public IPv4 DNS
   read -p '> ' ipv4dns
   echo $ipv4dns | xargs -I {} sed -i "s/127.0.0.1/{}/g" server.py
-  echo $ipv4dns | xargs -I {} sed -i "s/127.0.0.1/{}/g" client.py
+  echo $ipv4dns | xargs -I {} sed -i "s/127.0.0.1/{}/g" ./html/client.py
 else
   curl -s icanhazip.com | xargs -I {} sed -i "s/127.0.0.1/{}/g" server.py
-  curl -s icanhazip.com | xargs -I {} sed -i "s/127.0.0.1/{}/g" client.py
+  curl -s icanhazip.com | xargs -I {} sed -i "s/127.0.0.1/{}/g" ./html/client.py
 fi
 
 cd /etc/nginx/sites-available/
