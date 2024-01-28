@@ -70,14 +70,18 @@ alias reverse="bash /usr/local/Reverse/reverse.sh"
 echo "<meta http-equiv=\"refresh\" content=\"0; url='./client.py'\" />" > /usr/local/Reverse/html/index.html
 if [ -f /usr/local/Reverse/server.py ]; then rm /usr/local/Reverse/server.py; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/server.py
+if [ -f /usr/local/Reverse/client.py ]; then rm /usr/local/Reverse/client.py; fi
+wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/client.py
 if [ -f /usr/local/Reverse/reverse.sh ]; then rm /usr/local/Reverse/reverse.sh; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/reverse.sh
 if [ "$isoncloud" == 'yes' ]; then
   echo Enter Public IPv4 DNS
   read -p '> ' ipv4dns
   echo $ipv4dns | xargs -I {} sed -i "s/127.0.0.1/{}/g" server.py
+  echo $ipv4dns | xargs -I {} sed -i "s/127.0.0.1/{}/g" client.py
 else
   curl -s icanhazip.com | xargs -I {} sed -i "s/127.0.0.1/{}/g" server.py
+  curl -s icanhazip.com | xargs -I {} sed -i "s/127.0.0.1/{}/g" client.py
 fi
 
 cd /etc/nginx/sites-available/
