@@ -117,7 +117,8 @@ fi
 clear
 echo Congratulations, Reverse has been successfully installed!
 if [ "$isoncloud" == 'yes' ]; then
-  echo $ipv4dns | xargs -I {} echo To download your client file visit http://{}
+  echo $ipv4dns | xargs -I {} echo To download your client file visit http://{}:8444
 else
-  curl -s icanhazip.com | xargs -I {} echo To download your client file visit http://{}
+  curl -s icanhazip.com | xargs -I {} echo To download your client file visit http://{}:8444
 fi
+echo
