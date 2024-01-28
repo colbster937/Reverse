@@ -85,7 +85,7 @@ def handle_client(client_socket, addr):
     print(f"Connection closed with {addr}\n")
 
 def main():
-    ip = "192.168.6.165"
+    ip = "127.0.0.1"
     port = 4444
 
     connection = socket(AF_INET, SOCK_STREAM)
