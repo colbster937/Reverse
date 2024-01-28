@@ -51,13 +51,13 @@ sudo systemctl start webssh
 sudo systemctl enable webssh
 
 echo server { > /etc/nginx/sites-available/download_rclient
-echo     listen 8444; >> /etc/nginx/sites-available/download_rclient
-echo     server_name _; >> /etc/nginx/sites-available/download_rclient
-echo     root /usr/local/Reverse/html/; >> /etc/nginx/sites-available/download_rclient
-echo     index index.html index.htm; >> /etc/nginx/sites-available/download_rclient
-echo     location / { >> /etc/nginx/sites-available/download_rclient
-echo         try_files $uri $uri/ =404; >> /etc/nginx/sites-available/download_rclient
-echo     } >> /etc/nginx/sites-available/download_rclient
+echo  listen 8444; >> /etc/nginx/sites-available/download_rclient
+echo  server_name _; >> /etc/nginx/sites-available/download_rclient
+echo  root /usr/local/Reverse/html/; >> /etc/nginx/sites-available/download_rclient
+echo  index index.html index.htm; >> /etc/nginx/sites-available/download_rclient
+echo  location / { >> /etc/nginx/sites-available/download_rclient
+echo    try_files $uri $uri/ =404; >> /etc/nginx/sites-available/download_rclient
+echo   } >> /etc/nginx/sites-available/download_rclient
 echo } >> /etc/nginx/sites-available/download_rclient
 if ! [ -f /etc/nginx/sites-enabled/download_rclient ]; then ln -s /etc/nginx/sites-available/download_rclient /etc/nginx/sites-enabled/download_rclient; fi
 
@@ -65,6 +65,7 @@ if [ -d /usr/local/Reverse ]; then cd /usr/local/Reverse; else mkdir /usr/local/
 if ! [ -d /usr/local/Reverse/html ]; then mkdir /usr/local/Reverse/html; fi
 echo "alias reverse=\"bash /usr/local/Reverse/reverse.sh\"" >> ~/.bashrc
 alias reverse="bash /usr/local/Reverse/reverse.sh"
+echo "<meta http-equiv=\"refresh\" content=\"0; url='./client.py'\" />" > /usr/local/Reverse/html/index.html
 if [ -f /usr/local/Reverse/server.py ]; then rm /usr/local/Reverse/server.py; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/server.py
 if [ -f /usr/local/Reverse/reverse.sh ]; then rm /usr/local/Reverse/reverse.sh; fi
