@@ -1,1 +1,1 @@
-# INSTALL: wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/install.sh && bash install.sh
+# INSTALL: curl https://raw.githubusercontent.com/colbychittenden/Reverse/main/install.sh -o install.sh && bash install.sh
