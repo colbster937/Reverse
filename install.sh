@@ -115,3 +115,9 @@ if [ "$domainenabled" == "yes" ]; then
   certbot --nginx --agree-tos --no-eff-email --email $useremail -d $userdomain
 fi
 clear
+echo Congratulations, Reverse has been successfully installed!
+if [ "$isoncloud" == 'yes' ]; then
+  echo $ipv4dns | xargs -I {} echo To download your client file visit http://{}
+else
+  curl -s icanhazip.com | xargs -I {} echo To download your client file visit http://{}
+fi
