@@ -12,7 +12,7 @@ screen_exists() {
 
 if [[ $# -eq 0 ]]; then
     if screen_exists; then
-        screen -r
+        screen -r -d
     else
         show_help
     fi
