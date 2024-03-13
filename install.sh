@@ -37,15 +37,20 @@ apt update -y
 apt install python3 python3-pip screen tmux wget curl nginx certbot python3-certbot-nginx unzip -y
 pip3 install Flask Flask-SocketIO
 
-[Unit]
-Description=ttyd
-After=network.target remote-fs.target nss-lookup.target
+echo 'Web UI username'
+read -p '> ' webuser
+echo 'Web UI password'
+read -p -s '> ' webpass
 
-[Service]
-ExecStart=ttyd -p 8888 -c testuser:testpass bash
+echo "[Unit]" > /lib/systemd/system/ttyd.service
+echo "Description=ttyd" >> /lib/systemd/system/ttyd.service
+echo "After=network.target remote-fs.target nss-lookup.target" >> /lib/systemd/system/ttyd.service
 
-[Install]
-WantedBy=multi-user.target >> /lib/systemd/system/ttyd.service
+echo "[Service]" >> /lib/systemd/system/ttyd.service
+echo "ExecStart=ttyd -p 8888 -c $webuser:$webpass bash" >> /lib/systemd/system/ttyd.service
+
+echo "[Install]"
+echo "WantedBy=multi-user.target" >> /lib/systemd/system/ttyd.service
 
 sudo systemctl start ttyd
 sudo systemctl enable ttyd
@@ -65,8 +70,8 @@ if ! [ -f /etc/nginx/sites-enabled/download_rclient ]; then ln -s /etc/nginx/sit
 
 if [ -d /usr/local/Reverse ]; then cd /usr/local/Reverse; else mkdir /usr/local/Reverse && cd /usr/local/Reverse; fi
 if ! [ -d /usr/local/Reverse/html ]; then mkdir /usr/local/Reverse/html; fi
-echo "alias reverse=\"bash /usr/local/Reverse/reverse.sh\"" >> ~/.bashrc
-alias reverse="bash /usr/local/Reverse/reverse.sh"
+chmod +x /usr/local/Reverse/reverse.sh
+ln -s "/usr/local/Reverse/reverse.sh" "/bin/reverse/"
 echo "<meta http-equiv=\"refresh\" content=\"0; url='./client.py'\" />" > /usr/local/Reverse/html/index.html
 if [ -f /usr/local/Reverse/server.py ]; then rm /usr/local/Reverse/server.py; fi
 wget https://raw.githubusercontent.com/colbychittenden/Reverse/main/server.py
