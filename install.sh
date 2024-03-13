@@ -47,7 +47,7 @@ echo "Description=ttyd" >> /lib/systemd/system/ttyd.service
 echo "After=network.target remote-fs.target nss-lookup.target" >> /lib/systemd/system/ttyd.service
 
 echo "[Service]" >> /lib/systemd/system/ttyd.service
-echo "ExecStart=ttyd -p 8888 -c $webuser:$webpass bash" >> /lib/systemd/system/ttyd.service
+echo "ExecStart=ttyd -p 8888 -c $webuser:$webpass reverse" >> /lib/systemd/system/ttyd.service
 
 echo "[Install]"
 echo "WantedBy=multi-user.target" >> /lib/systemd/system/ttyd.service
