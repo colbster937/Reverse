@@ -35,20 +35,20 @@ done
 
 apt update -y
 apt install python3 python3-pip screen tmux wget curl nginx certbot python3-certbot-nginx unzip -y
-pip3 install Flask Flask-SocketIO webssh
+pip3 install Flask Flask-SocketIO
 
-echo "[Unit]" > /etc/systemd/system/webssh.service
-echo "Description=WebSSH terminal interface" >> /etc/systemd/system/webssh.service
-echo "After=network.target" >> /etc/systemd/system/webssh.service
-echo "[Service]" >> /etc/systemd/system/webssh.service
-echo "User=www-data" >> /etc/systemd/system/webssh.service
-echo "Group=www-data" >> /etc/systemd/system/webssh.service
-echo "ExecStart=wssh" >> /etc/systemd/system/webssh.service
-echo "[Install]" >> /etc/systemd/system/webssh.service
-echo "WantedBy=multi-user.target" >> /etc/systemd/system/webssh.service
+[Unit]
+Description=ttyd
+After=network.target remote-fs.target nss-lookup.target
 
-sudo systemctl start webssh
-sudo systemctl enable webssh
+[Service]
+ExecStart=ttyd -p 8888 -c testuser:testpass bash
+
+[Install]
+WantedBy=multi-user.target >> /lib/systemd/system/ttyd.service
+
+sudo systemctl start ttyd
+sudo systemctl enable ttyd
 
 cat << 'EOF' > /etc/nginx/sites-available/download_rclient
 server {
